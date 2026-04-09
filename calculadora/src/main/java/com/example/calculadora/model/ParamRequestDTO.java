@@ -1,0 +1,4 @@
+package com.example.calculadora.model;
+
+public record ParamRequestDTO(Double x1, Double x2, Double erro, String function) {
+}
