@@ -7,9 +7,21 @@ import org.springframework.stereotype.Service;
 
 public class BissecaoService {
 
-    public int iteracoes = 0;
-    public double erro = 0;
-    public double raiz = 0;
+    private int iteracoes = 0;
+    private double erro = 0;
+    private double raiz = 0;
+
+    public int getIteracoes() {
+        return iteracoes;
+    }
+
+    public double getErro() {
+        return erro;
+    }
+
+    public double getRaiz() {
+        return raiz;
+    }
 
     public void calcular(double x1, double x2, double e, String func) {
 

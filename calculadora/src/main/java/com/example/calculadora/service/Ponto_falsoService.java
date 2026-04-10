@@ -7,9 +7,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class Ponto_falsoService {
 
-    public double erro;
-    public int iteracoes = 0;
-    public double raiz = 0;
+    private double erro;
+    private int iteracoes = 0;
+    private double raiz = 0;
+
+    public double getErro() {
+        return erro;
+    }
+
+    public int getIteracoes() {
+        return iteracoes;
+    }
+
+    public double getRaiz() {
+        return raiz;
+    }
 
     public void calcular(String funcStr, double a, double b, double erroTolerado) {
 
