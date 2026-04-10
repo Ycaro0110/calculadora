@@ -21,13 +21,6 @@ public class FuncaoController {
     NewtonService newtonService;
     Ponto_falsoService ponto_falsoService;
 
-//    @Autowired
-//    public FuncaoController(BissecaoService bissecaoService, NewtonService newtonService, Ponto_falsoService pontoFalso) {
-//        this.bissecaoService = bissecaoService;
-//        this.newtonService = newtonService;
-//        this.ponto_falsoService = pontoFalso;
-//    }
-
     @PostMapping("/bissecao")
     public ResponseEntity<ResponseDTO> bissecao(@RequestBody ParamRequestDTO parametros) {
 
