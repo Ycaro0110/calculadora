@@ -43,7 +43,7 @@ public class Ponto_falsoService {
             return;
         }
 
-        double xr = a;  // Aproximação inicial da raiz
+        double xr;  // Aproximação inicial da raiz
         double erroAtual;
 
         // Itera até que o erro seja menor que o erro tolerado
