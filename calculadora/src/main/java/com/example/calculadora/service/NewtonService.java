@@ -1,5 +1,7 @@
 package com.example.calculadora.service;
 
+import com.example.calculadora.DTO.ParamRequestDTO;
+import com.example.calculadora.DTO.ResponseDTO;
 import org.mariuszgromada.math.mxparser.Argument;
 import org.mariuszgromada.math.mxparser.Expression;
 import org.springframework.stereotype.Service;
@@ -12,65 +14,49 @@ public class NewtonService {
     private int iteracoes = 0;
     private double raiz = 0;
 
-    public double getErro() {
-        return erro;
-    }
 
-    public int getIteracoes() {
-        return iteracoes;
-    }
+    public ResponseDTO calcular(ParamRequestDTO parametros) {
 
-    public double getRaiz() {
-        return raiz;
-    }
+        double x0 = parametros.x1();
+        double x2 = parametros.x2();
+        double erroTolerado = parametros.erro();
+        String funcStr = parametros.function();
 
-    public void calcular(String funcStr, double x0, double erroTolerado) {
+        iteracoes = 0;
 
-        // Inicializando a variável x0
         Argument x = new Argument("x = " + x0);
 
-        // Expressão para a função
         Expression func = new Expression(funcStr, x);
 
-        // Expressão para a derivada da função
         Expression derivFunc = new Expression("der(" + funcStr + ", x)", x);
 
-        double fx, dfx, x1, erroAtual;
+        double fx, dfx, x1 = 0, erroAtual = 0;
 
-        // Realiza a primeira iteração
+
         do {
-            // Calcula o valor da função e da derivada no ponto atual
             fx = func.calculate();
             dfx = derivFunc.calculate();
 
-            // Se a derivada for zero, o método falha e não pode calcular
             if (dfx == 0) {
                 System.out.println("Derivada é zero, o método falhou.");
-                return;
+                break;
             }
-
-            // Calcula o próximo valor de x usando a fórmula de Newton-Raphson
             x1 = x0 - fx / dfx;
 
-            // Calcula o erro atual (diferença entre o valor anterior e o novo)
             erroAtual = Math.abs(x1 - x0);
-
-            // Atualiza o valor de x para fazer próxima iteração
             x.setArgumentValue(x1);
             x0 = x1;
-
-            // Mostra o erro atual para acompanhar as iterações
             this.iteracoes++;
             System.out.println("Iteração: x = " + x1 + ", Erro atual = " + erroAtual);
 
+
         } while (erroAtual > erroTolerado);
 
-        // Retorna o valor aproximado da raiz
         this.erro = erroAtual;
 
-
         raiz = x1;
+
+        return new ResponseDTO(iteracoes, erro, raiz);
+
     }
-
-
 }
