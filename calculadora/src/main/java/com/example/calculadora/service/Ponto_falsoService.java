@@ -32,7 +32,7 @@ public class Ponto_falsoService {
 
         if (fa * fb >= 0) {
             System.out.println("f(a) e f(b) devem ter sinais opostos.");
-            return new ResponseDTO(iteracoes, erro, raiz);
+            throw  new RuntimeException("f(a) e f(b) devem ter sinais opostos.");
         }
         double xr;
         double erroAtual;

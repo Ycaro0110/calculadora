@@ -18,7 +18,6 @@ public class NewtonService {
     public ResponseDTO calcular(ParamRequestDTO parametros) {
 
         double x0 = parametros.x1();
-        double x2 = parametros.x2();
         double erroTolerado = parametros.erro();
         String funcStr = parametros.function();
 
@@ -38,8 +37,7 @@ public class NewtonService {
             dfx = derivFunc.calculate();
 
             if (dfx == 0) {
-                System.out.println("Derivada é zero, o método falhou.");
-                break;
+                throw new RuntimeException("Derivada é zero, o método falhou.");
             }
             x1 = x0 - fx / dfx;
 
