@@ -1,18 +1,20 @@
-package com.example.calculadora.service;
+package com.example.calculadora.business.service;
 
-import com.example.calculadora.DTO.ParamRequestDTO;
-import com.example.calculadora.DTO.ResponseDTO;
+import com.example.calculadora.controller.DTO.ParamRequestDTO;
+import com.example.calculadora.controller.DTO.ResponseDTO;
+import com.example.calculadora.infrastructure.exceptions.ErroCalculo;
 import org.mariuszgromada.math.mxparser.Argument;
 import org.mariuszgromada.math.mxparser.Expression;
 import org.springframework.stereotype.Service;
 
 @Service
-public class Ponto_falsoService {
+public class PontoFalsoService implements MetodoService {
 
     private double erro;
     private int iteracoes = 0;
     private double raiz = 0;
 
+    @Override
     public ResponseDTO calcular(ParamRequestDTO parametros) {
 
         double a = parametros.x1();
@@ -31,8 +33,8 @@ public class Ponto_falsoService {
         double fb = func.calculate();
 
         if (fa * fb >= 0) {
-            System.out.println("f(a) e f(b) devem ter sinais opostos.");
-            throw  new RuntimeException("f(a) e f(b) devem ter sinais opostos.");
+
+            throw new ErroCalculo("f(a) e f(b) devem ter sinais opostos.");
         }
         double xr;
         double erroAtual;
@@ -47,7 +49,6 @@ public class Ponto_falsoService {
             double fr = func.calculate();
 
             if (Math.abs(fr) < erroTolerado) {
-                System.out.println("Raiz encontrada: x = " + xr);
                 return new ResponseDTO(iteracoes, erro, raiz);
 
             }

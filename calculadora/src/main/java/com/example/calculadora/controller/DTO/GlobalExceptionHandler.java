@@ -1,7 +1,7 @@
-package com.example.calculadora.DTO;
+package com.example.calculadora.controller.DTO;
 
 
-
+import com.example.calculadora.infrastructure.exceptions.ErroCalculo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -16,7 +16,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGeneric(Exception e) {
-        return ResponseEntity.status(500).body("Erro interno no servidor");
+        return ResponseEntity.status(500).body(e.getMessage());
+    }
+
+    @ExceptionHandler(ErroCalculo.class)
+    public ResponseEntity<String> handleGeneric(ErroCalculo e) {
+        return ResponseEntity.status(500).body(e.getMessage());
     }
 
 }

@@ -1,18 +1,20 @@
-package com.example.calculadora.service;
+package com.example.calculadora.business.service;
 
-import com.example.calculadora.DTO.ParamRequestDTO;
-import com.example.calculadora.DTO.ResponseDTO;
+import com.example.calculadora.controller.DTO.ParamRequestDTO;
+import com.example.calculadora.controller.DTO.ResponseDTO;
+import com.example.calculadora.infrastructure.exceptions.ErroCalculo;
 import org.mariuszgromada.math.mxparser.Function;
 import org.springframework.stereotype.Service;
 
 @Service
 
-public class BissecaoService {
+public class BissecaoService implements MetodoService{
 
     private int iteracoes = 0;
     private double erro = 0;
     private double raiz = 0;
 
+    @Override
     public ResponseDTO calcular(ParamRequestDTO parametros) {
 
         double x1 = parametros.x1();
@@ -34,7 +36,7 @@ public class BissecaoService {
         do {
             double bolzano = f.calculate(x1) * f.calculate(x2);
             if (bolzano > 0) {
-                throw new RuntimeException("Não existe raiz neste intervalo");
+                throw new ErroCalculo("Não existe raiz neste intervalo");
             }
             x_old = x_medio;
 

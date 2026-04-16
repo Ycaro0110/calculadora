@@ -1,21 +1,25 @@
-package com.example.calculadora.service;
+package com.example.calculadora.business.service;
 
-import com.example.calculadora.DTO.ParamRequestDTO;
-import com.example.calculadora.DTO.ResponseDTO;
+import com.example.calculadora.controller.DTO.ParamRequestDTO;
+import com.example.calculadora.controller.DTO.ResponseDTO;
+import com.example.calculadora.infrastructure.exceptions.ErroCalculo;
 import org.mariuszgromada.math.mxparser.Argument;
 import org.mariuszgromada.math.mxparser.Expression;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class NewtonService {
+public class NewtonService implements MetodoService {
 
     private double erro = 0;
     private int iteracoes = 0;
     private double raiz = 0;
 
-
+    @Override
     public ResponseDTO calcular(ParamRequestDTO parametros) {
+
+
+
 
         double x0 = parametros.x1();
         double erroTolerado = parametros.erro();
@@ -29,7 +33,7 @@ public class NewtonService {
 
         Expression derivFunc = new Expression("der(" + funcStr + ", x)", x);
 
-        double fx, dfx, x1 = 0, erroAtual = 0;
+        double fx, dfx, x1, erroAtual;
 
 
         do {
@@ -37,7 +41,7 @@ public class NewtonService {
             dfx = derivFunc.calculate();
 
             if (dfx == 0) {
-                throw new RuntimeException("Derivada é zero, o método falhou.");
+                throw new ErroCalculo("Derivada é zero, o método falhou.");
             }
             x1 = x0 - fx / dfx;
 
@@ -45,7 +49,6 @@ public class NewtonService {
             x.setArgumentValue(x1);
             x0 = x1;
             this.iteracoes++;
-            System.out.println("Iteração: x = " + x1 + ", Erro atual = " + erroAtual);
 
 
         } while (erroAtual > erroTolerado);
